@@ -14,28 +14,23 @@ if (process.env.IS_OFFLINE) {
 const dynamodb = new aws.DynamoDB.DocumentClient(dynamoDBClientParams)
 
 const updateUsers = async (event, context) => {
-
-    let userId = event.pathParameters.id
-
+    const userId = event.pathParameters.id
     const body = JSON.parse(event.body)
-
-    var params = {
-        TableName: 'usersTable',
+    const params = {
+        TableName: 'users',
         Key: { pk: userId },
-        UpdateExpression: 'set #name = :name',
-        ExpressionAttributeNames: { '#name' : 'name' },
+        UpdateExpression: 'set #full_name = :full_name, #email = :email',
+        ExpressionAttributeNames: { '#full_name' : 'full_name', '#email' : 'email' },
         ExpressionAttributeValues:
-            { ':name' : body.name },
+            { ':full_name' : body?.full_name, ':email' : body?.email || null },
         ReturnValues: 'ALL_NEW'
     };
-
-    return dynamodb.update(params).promise().then(res => {
-        console.log(res)
-        return {
-            "statusCode": 200,
-            "body": JSON.stringify({ 'user': res.Attributes })
-        }
-    })
+    const res = await dynamodb.update(params).promise();
+    console.log(res);
+    return {
+        "statusCode": 200,
+        "body": JSON.stringify({ 'user': res.Attributes })
+    };
 }
 
 module.exports = {

@@ -1,7 +1,6 @@
 const aws = require("aws-sdk")
 
 let dynamoDBClientParams = {}
-
 if (process.env.IS_OFFLINE) {
     dynamoDBClientParams =  {
         region: 'localhost',
@@ -14,22 +13,17 @@ if (process.env.IS_OFFLINE) {
 const dynamodb = new aws.DynamoDB.DocumentClient(dynamoDBClientParams)
 
 const getUsers = async (event, context) => {
-
-    let userId = event.pathParameters.id
-
-    var params = {
+    const userId = event?.pathParameters?.id
+    const params = {
         ExpressionAttributeValues: { ':pk': userId },
         KeyConditionExpression: 'pk = :pk',
-        TableName: 'usersTable'
+        TableName: 'users'
     };
-
-    return dynamodb.query(params).promise().then(res => {
-        console.log(res)
-        return {
-            "statusCode": 200,
-            "body": JSON.stringify({ 'user': res})
-        }
-    })
+    const res = await dynamodb.query(params).promise();
+    return {
+        "statusCode": 200,
+        "body": JSON.stringify({'user': res?.Items[0] || null})
+    };
 }
 
 module.exports = {

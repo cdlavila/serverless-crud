@@ -10,18 +10,15 @@ if IS_OFFLINE:
     )
     client = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
 
-table = client.Table('usersTable')
+table = client.Table('users')
 
 
-def deleteUsers(event, context):
+def delete_users(event, context):
     user_id = event['pathParameters']['id']
     result = table.delete_item(Key = {'pk': user_id})
-
     body = json.dumps( { 'message' : f"user {user_id} deleted"})
-
     response = {
         'statusCode': result['ResponseMetadata']['HTTPStatusCode'],
         'body': body
     }
-
     return response

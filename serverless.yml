@@ -2,13 +2,14 @@ service: crud-serverless-users
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
   iam:
+    # To be allowed for using DynamoBD in production
     role:
       statements:
         - Effect: Allow
           Action: 'dynamodb:*'
-          Resource: arn:aws:dynamodb:us-east-1:471893938953:table/usersTable
+          Resource: arn:aws:dynamodb:us-east-1:326652203684:table/users
 
 plugins:
   - serverless-offline
@@ -18,9 +19,12 @@ plugins:
 package:
   individually: true
   patterns:
-    - "!*/**"
+    # - "!*/**"
+      - "!node_modules"
+      - "!.dynamodb"
 
 
+# Check the serverless-dynamodb-local plugin page to learn more about the options
 custom:
   dynamodb:
   # If you only want to use DynamoDB Local in some stages, declare them here
@@ -35,66 +39,67 @@ custom:
 
 functions:
   get-users:
-    handler: getusers/handler.getUsers
-    package:
-      patterns:
-        - "getusers/handler.js"
+    handler: getUsers/handler.getUsers
+#    package:
+#      patterns:
+#        - "getUsers/handler.js"
     events:
       - http:
           path: users/{id}
           method: GET
-          request:
-            parameters:
-              paths:
-                id: true
+#          request:
+#            parameters:
+#              paths:
+#                id: true
   create-users:
     handler: createUsers/handler.createUsers
-    package:
-      patterns:
-        - "createUsers/handler.js"
+#    package:
+#      patterns:
+#        - "createUsers/handler.js"
     events:
       - http:
           path: users
           method: POST
-          request:
-            schemas:
-              application/json: ${file(schemas/user-schema.json)}
+#          request:
+#            schemas:
+#              application/json: ${file(schemas/user-schema.json)}
   update-users:
     handler: updateUsers/handler.updateUsers
-    package:
-      patterns:
-        - "updateUsers/handler.js"
+#    package:
+#      patterns:
+#        - "updateUsers/handler.js"
     events:
       - http:
           path: users/{id}
           method: PATCH
-          request:
-            parameters:
-              paths:
-                id: true
-            schemas:
-              application/json: ${file(schemas/user-schema.json)}
+#          request:
+#            parameters:
+#              paths:
+#                id: true
+#            schemas:
+#              application/json: ${file(schemas/user-schema.json)}
   delete-users:
-    handler: deleteUsers/handler.deleteUsers
+    handler: deleteUsers/handler.delete_users
     runtime: python3.8
-    package:
-      patterns:
-        - "deleteUsers/handler.py"
+#    package:
+#      patterns:
+#        - "deleteUsers/handler.py"
     events:
       - http:
           path: users/{id}
           method: DELETE
-          request:
-            parameters:
-              paths:
-                id: true
+#          request:
+#            parameters:
+#              paths:
+#                id: true
 
 resources:
+  # Check the serverless-dynamodb-local plugin page to learn more about the options
   Resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable
+        TableName: users
         AttributeDefinitions:
           - AttributeName: pk
             AttributeType: S
@@ -104,24 +109,24 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-    S3Bucket:
-      Type: 'AWS::S3::Bucket'
-      Properties:
-        AccessControl: PublicRead
-        BucketName: bucket-serverless-course-123213
-    SampleBucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket: !Ref S3Bucket
-        PolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-            - Action:
-                - 's3:GetObject'
-              Effect: Allow
-              Resource: !Join
-                - ''
-                - - 'arn:aws:s3:::'
-                  - !Ref S3Bucket
-                  - /*
-              Principal: '*'
+#    S3Bucket:
+#      Type: 'AWS::S3::Bucket'
+#      Properties:
+#        AccessControl: PublicRead
+#        BucketName: bucket-serverless-course-123213
+#    SampleBucketPolicy:
+#      Type: AWS::S3::BucketPolicy
+#      Properties:
+#        Bucket: !Ref S3Bucket
+#        PolicyDocument:
+#          Version: "2012-10-17"
+#          Statement:
+#            - Action:
+#                - 's3:GetObject'
+#              Effect: Allow
+#              Resource: !Join
+#                - ''
+#                - - 'arn:aws:s3:::'
+#                  - !Ref S3Bucket
+#                  - /*
+#              Principal: '*'
