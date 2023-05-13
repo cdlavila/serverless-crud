@@ -1,5 +1,5 @@
 {
-  "name": "hola-mundo",
+  "name": "serverless-crud",
   "version": "1.0.0",
   "description": "",
   "main": "handler.js",
