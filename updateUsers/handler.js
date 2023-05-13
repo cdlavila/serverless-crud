@@ -26,7 +26,6 @@ const updateUsers = async (event, context) => {
         ReturnValues: 'ALL_NEW'
     };
     const res = await dynamodb.update(params).promise();
-    console.log(res);
     return {
         "statusCode": 200,
         "body": JSON.stringify({ 'user': res.Attributes })

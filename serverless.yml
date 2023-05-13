@@ -4,7 +4,6 @@ provider:
   name: aws
   runtime: nodejs18.x
   iam:
-    # To be allowed for using DynamoBD in production
     role:
       statements:
         - Effect: Allow
@@ -19,9 +18,8 @@ plugins:
 package:
   individually: true
   patterns:
-    # - "!*/**"
-      - "!node_modules"
-      - "!.dynamodb"
+    - "!*/**"
+    - "!**"
 
 
 # Check the serverless-dynamodb-local plugin page to learn more about the options
@@ -40,9 +38,9 @@ custom:
 functions:
   get-users:
     handler: getUsers/handler.getUsers
-#    package:
-#      patterns:
-#        - "getUsers/handler.js"
+    package:
+      patterns:
+        - "getUsers/handler.js"
     events:
       - http:
           path: users/{id}
@@ -53,9 +51,9 @@ functions:
 #                id: true
   create-users:
     handler: createUsers/handler.createUsers
-#    package:
-#      patterns:
-#        - "createUsers/handler.js"
+    package:
+      patterns:
+        - "createUsers/handler.js"
     events:
       - http:
           path: users
@@ -65,13 +63,13 @@ functions:
 #              application/json: ${file(schemas/user-schema.json)}
   update-users:
     handler: updateUsers/handler.updateUsers
-#    package:
-#      patterns:
-#        - "updateUsers/handler.js"
+    package:
+      patterns:
+        - "updateUsers/handler.js"
     events:
       - http:
           path: users/{id}
-          method: PATCH
+          method: PUT
 #          request:
 #            parameters:
 #              paths:
@@ -81,9 +79,9 @@ functions:
   delete-users:
     handler: deleteUsers/handler.delete_users
     runtime: python3.8
-#    package:
-#      patterns:
-#        - "deleteUsers/handler.py"
+    package:
+      patterns:
+        - "deleteUsers/handler.py"
     events:
       - http:
           path: users/{id}
