@@ -13,7 +13,7 @@ We have 4 endpoints:
 
 At this point you should have already installed [Node.js](https://nodejs.org/en/), [Python](https://www.python.org/), [Serverless Framework](https://serverless.com/), [AWS CLI](https://aws.amazon.com/cli/) and [Java JRE](https://www.java.com/en/download/).
 
-1. Go to the **serverless-crud** directory: `cd hello-world`
+1. Go to the **serverless-crud** directory: `cd serverless-crud`
 2. Install NodeJS dependencies: `npm install`
 3. Activate Python virtual environment: `source venv/bin/activate`
 4. Install Python dependencies: `pip install -r requirements.txt`
