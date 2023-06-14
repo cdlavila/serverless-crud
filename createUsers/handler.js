@@ -17,7 +17,7 @@ const dynamodb = new aws.DynamoDB.DocumentClient(dynamoDBClientParams)
 const createUsers = async (event, context) => {
     const body = JSON.parse(event?.body)
     const data = {
-        id: randomUUID(),
+        pk: randomUUID(),
         full_name: body?.full_name,
         email: body?.email,
     }

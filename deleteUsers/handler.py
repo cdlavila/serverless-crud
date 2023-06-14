@@ -17,8 +17,8 @@ table = client.Table('users')
 
 def delete_users(event, context):
     user_id = event['pathParameters']['id']
-    result = table.delete_item(Key = {'pk': user_id})
-    body = json.dumps( { 'message' : f"user {user_id} deleted"})
+    result = table.delete_item(Key={'pk': user_id})
+    body = json.dumps({'message': f"user {user_id} deleted"})
     response = {
         'statusCode': result['ResponseMetadata']['HTTPStatusCode'],
         'body': body
