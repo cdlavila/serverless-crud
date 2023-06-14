@@ -19,6 +19,25 @@ jobs:
     - name: Run Tests
       run: 'npm run test'
 
+  BuildLayer:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    name: Build SLS Layer - Prod
+    container:
+      image: "node:14-buster"
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm install --production
+          mkdir nodejs
+          mv node_modules nodejs
+          apt update -y && apt install zip -y
+          zip -r nodejs.zip nodejs/
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nodejsdeps
+          path: nodejs.zip
+
   CD:
     name: Deploy to Dev
     runs-on: ubuntu-latest
@@ -35,6 +54,10 @@ jobs:
     - name: Install dependencies
       if: steps.cached-npm-dependencies.outputs.cache-hit != 'true'
       run: 'npm install'
+    - uses: actions/download-artifact@v2
+      with:
+        name: nodejsdeps
+        path: app/
     - name: Deploy using sls
       run: 'npx sls deploy'
       env:

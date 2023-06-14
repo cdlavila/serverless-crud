@@ -16,8 +16,8 @@ provider:
     BUCKET: bucket-serverless-crud
 
 plugins:
-  - serverless-offline
-  - serverless-dynamodb-local
+#  - serverless-offline
+#  - serverless-dynamodb-local
 
 
 package:
@@ -110,6 +110,8 @@ functions:
                 fileName: true
   thumbGenerator:
     handler: thumbnail/handler.thumbnailGenerator
+    layers:
+      - {Ref: BaseLambdaLayer}
     package:
       patterns:
         - "thumbnail/handler.js"
@@ -121,6 +123,13 @@ functions:
           rules:
             - prefix: upload/
 
+layers:
+  base:
+    name: "dependencies"
+    compatibleRuntimes:
+      - "nodejs18.x"
+    package:
+      artifact: app/nodejs.zip
 
 resources:
   # Check the serverless-dynamodb-local plugin page to learn more about the options
