@@ -41,7 +41,7 @@ jobs:
   CD:
     name: Deploy to Dev
     runs-on: ubuntu-latest
-    needs: CI
+    needs: [CI, BuildLayer]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
