@@ -131,7 +131,7 @@ layers:
   base:
     name: "dependencies"
     compatibleRuntimes:
-      - "nodejs18.x"
+      - "nodejs14.x"
     package:
       artifact: app/nodejs.zip
 
