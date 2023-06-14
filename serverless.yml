@@ -9,6 +9,11 @@ provider:
         - Effect: Allow
           Action: 'dynamodb:*'
           Resource: arn:aws:dynamodb:us-east-1:326652203684:table/users
+        - Effect: Allow
+          Action: 's3:*'
+          Resource: arn:aws:s3:::bucket-serverless-crud/*
+  environment:
+    BUCKET: bucket-serverless-crud
 
 plugins:
   - serverless-offline
@@ -90,6 +95,19 @@ functions:
             parameters:
               paths:
                 id: true
+  sign-s3-url:
+    handler: signS3Url/handler.signS3Url
+    package:
+      patterns:
+        - "signS3Url/handler.js"
+    events:
+      - http:
+          path: signS3Url
+          method: GET
+          request:
+            parameters:
+              querystrings:
+                fileName: true
 
 resources:
   # Check the serverless-dynamodb-local plugin page to learn more about the options
