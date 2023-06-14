@@ -12,7 +12,7 @@ const likeuser = async (event, context) => {
     const userid = JSON.parse(body).id
     console.log(userid)
     const params = {
-        TableName: 'usersTable',
+        TableName: 'users',
         Key: { pk: userid },
         UpdateExpression: "ADD likes :inc",
         ExpressionAttributeValues: {
