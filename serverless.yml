@@ -108,6 +108,19 @@ functions:
             parameters:
               querystrings:
                 fileName: true
+  thumbGenerator:
+    handler: thumbnail/handler.thumbnailGenerator
+    package:
+      patterns:
+        - "thumbnail/handler.js"
+    events:
+      - s3:
+          bucket: bucket-serverless-crud
+          event: s3:ObjectCreated:*
+          existing: true
+          rules:
+            - prefix: upload/
+
 
 resources:
   # Check the serverless-dynamodb-local plugin page to learn more about the options
