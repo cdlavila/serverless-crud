@@ -25,6 +25,7 @@ plugins:
 #  - serverless-dynamodb-local
   - serverless-apigateway-service-proxy
   - serverless-lift
+  - serverless-domain-manager
 
 package:
   individually: true
@@ -34,6 +35,13 @@ package:
 
 # Check the serverless-dynamodb-local plugin page to learn more about the options
 custom:
+  # customDomain:
+  #   domainName: librooks.me
+  #   stage: dev
+  #   basePath: api
+  #   endpointType: 'regional'
+  #   securityPolicy: tls_1_2
+  #   apiType: rest
   dynamodb:
   # If you only want to use DynamoDB Local in some stages, declare them here
     stages:
