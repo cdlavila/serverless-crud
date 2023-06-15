@@ -68,7 +68,7 @@ constructs:
         batchSize: 1 # only one message will be processed at a time
         worker:
             handler: likeuser/handler.likeuser
-            reservedConcurrency: 10 # only ten lambda instance will be running at a time
+            # reservedConcurrency: 10 # only ten lambda instance will be running at a time
             package:
               patterns:
                 - "likeuser/handler.js"
