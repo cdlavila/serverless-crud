@@ -25,7 +25,7 @@ plugins:
 #  - serverless-dynamodb-local
   - serverless-apigateway-service-proxy
   - serverless-lift
-  - serverless-domain-manager
+#  - serverless-domain-manager
 
 package:
   individually: true
