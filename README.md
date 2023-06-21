@@ -1,6 +1,6 @@
 ## Serverless REST API CRUD
 
-This is a REST API CRUD developed using [Serverless Framework](https://serverless.com/), [AWS Lambda](https://aws.amazon.com/lambda/) and [DynamoDB](https://aws.amazon.com/dynamodb/). Additionally, we are using two different programming languages: [Node.js](https://nodejs.org/en/) and [Python](https://www.python.org/). 
+This is a REST API CRUD developed using [Serverless Framework](https://serverless.com/), [AWS Lambda](https://aws.amazon.com/lambda/), [AWS S3](https://aws.amazon.com/s3/), [AWS SQS](https://aws.amazon.com/sqs/), and [DynamoDB](https://aws.amazon.com/dynamodb/). Additionally, we are using two different programming languages: [Node.js](https://nodejs.org/en/) and [Python](https://www.python.org/).
 <br><br>
 We have 4 endpoints:
 
